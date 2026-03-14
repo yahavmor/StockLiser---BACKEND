@@ -1,5 +1,7 @@
 import { getDB } from "../../database.js"
 import { ObjectId } from "mongodb"
+import bcrypt from "bcrypt"
+
 
 
 export const authService  = {
@@ -10,13 +12,40 @@ export const authService  = {
 async function signup(newUser){
     const db = getDB()
     const collection = db.collection("users")
-    const result = await collection.insertOne(newUser)
-    return { _id: result.insertedId, ...newUser }
+
+    const existing = await collection.findOne({ username: newUser.username })
+    if (existing) throw new Error("Username already exists")
+
+    const hash = await bcrypt.hash(newUser.password, 10)
+
+    const userToSave = {
+        username: newUser.username,
+        fullname: newUser.fullname,
+        password: hash
+    }
+
+    const result = await collection.insertOne(userToSave)
+
+    delete userToSave.password
+
+    return { _id: result.insertedId, ...userToSave }
 }
-async function login(cred){
+
+
+export async function login(cred) {
+    console.log(cred)
     const db = getDB()
     const collection = db.collection("users")
-    return await collection.findOne({ _id: new ObjectId(id) })
+
+    const user = await collection.findOne({ username: cred.username })
+    if (!user) throw new Error("User not found")
+
+    const match = await bcrypt.compare(cred.password, user.password)
+    if (!match) throw new Error("Wrong password")
+
+    delete user.password
+
+    return user
 }
 
 
