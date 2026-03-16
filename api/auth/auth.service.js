@@ -21,7 +21,8 @@ async function signup(newUser){
     const userToSave = {
         username: newUser.username,
         fullname: newUser.fullname,
-        password: hash
+        password: hash,
+        savedMemes:[]
     }
 
     const result = await collection.insertOne(userToSave)

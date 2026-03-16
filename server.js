@@ -5,6 +5,7 @@ import dotenv from "dotenv"
 import { authRoutes } from './api/auth/auth.routes.js'
 import session from "express-session"
 import MongoStore from "connect-mongo"
+import { memeRoutes } from "./api/meme/meme.routes.js"
 
 dotenv.config()
 
@@ -37,6 +38,8 @@ app.use(session({
 }))
 
 app.use('/api/auth', authRoutes)
+app.use('/api/meme', memeRoutes)
+
 
 await connectToDB()
 
