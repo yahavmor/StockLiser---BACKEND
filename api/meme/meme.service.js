@@ -3,7 +3,8 @@ import { ObjectId } from "mongodb"
 
 export const memeService = {
     getMemes,
-    saveMeme
+    saveMeme,
+    removeMeme
 }
 
 async function getMemes(userId) {
@@ -22,6 +23,16 @@ async function saveMeme(userId, meme) {
         { _id: new ObjectId(userId) },
         { $push: { savedMemes: meme } }
     )
-
     return meme
 }
+async function removeMeme(userId, memeId) {
+    const db = getDB()
+    const collection = db.collection("users")
+
+    await collection.updateOne(
+        { _id: new ObjectId(userId) },
+        { $pull: { savedMemes: { id: memeId } } }
+    )
+    return { msg: "Meme removed", id: memeId }
+}
+

@@ -31,3 +31,16 @@ export async function getMemes(req, res) {
         res.status(500).send({ msg: "Failed to load memes" })
     }
 }
+export async function removeMeme(req, res) {
+    let deletedMeme
+    try{
+        const memeId = req.params.id
+        const userId = req.session.user._id
+        deletedMeme = memeService.removeMeme(userId,memeId)
+    }
+    catch (err){
+        console.log(err)
+        res.status(500).send({msg: "Failed to delete meme"})
+    }
+    res.send(deletedMeme)
+}
