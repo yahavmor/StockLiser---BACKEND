@@ -1,15 +1,9 @@
 import { stockService } from "./stock.service.js"
 
-
-
-
-
-
 export async function saveStock(req, res) {
     try {
         const stock = req.body
         const userId = req.session.user._id
-
         const saved = await stockService.saveStock(userId, stock)
         res.send(saved)
 
@@ -22,7 +16,7 @@ export async function saveStock(req, res) {
 export async function getStocks(req, res) {
     try {
         const userId = req.session.user._id
-        const stocks = await memeService.getStocks(userId)
+        const stocks = await stockService.getStocks(userId)
         res.send(stocks)
 
     } catch (err) {
@@ -33,9 +27,9 @@ export async function getStocks(req, res) {
 export async function removeStock(req, res) {
     let deletedStock
     try{
-        const symbol = req.params.symbol
+        const stockId = req.params.id
         const userId = req.session.user._id
-        deletedStock = stockService.removeStock(userId,symbol)
+        deletedStock = await stockService.removeStock(userId,stockId)
     }
     catch (err){
         console.log(err)

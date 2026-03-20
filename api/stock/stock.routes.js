@@ -5,7 +5,7 @@ export const stockRoutes = express.Router()
 
 stockRoutes.post("/save", saveStock)
 stockRoutes.get("/",getStocks)
-stockRoutes.delete("/:symbol",removeStock)
+stockRoutes.delete("/:id",removeStock)
 
 
 

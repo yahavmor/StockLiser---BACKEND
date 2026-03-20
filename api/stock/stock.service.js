@@ -25,14 +25,14 @@ async function saveStock(userId, stock) {
     )
     return stock
 }
-async function removeStock(userId, symbol) {
+async function removeStock(userId,stockId) {
     const db = getDB()
     const collection = db.collection("users")
 
     await collection.updateOne(
         { _id: new ObjectId(userId) },
-        { $pull: { savedStocks: { symbol: symbol } } }
+        { $pull: { savedStocks: { stockId: stockId } } }
     )
-    return { msg: "Stock removed", symbol: symbol }
+    return { msg: "Stock removed", stockId: stockId }
 }
 
