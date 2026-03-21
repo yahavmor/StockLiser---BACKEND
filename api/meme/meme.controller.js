@@ -31,6 +31,18 @@ export async function getMemes(req, res) {
         res.status(500).send({ msg: "Failed to load memes" })
     }
 }
+export async function getMeme(req, res) {
+    try {
+        const userId = req.session.user._id
+        const memeId = req.params.id
+        const meme = await memeService.getMeme(userId,memeId)
+        res.send(meme)
+
+    } catch (err) {
+        console.error(err)
+        res.status(500).send({ msg: "Failed to load meme" })
+    }
+}
 export async function removeMeme(req, res) {
     let deletedMeme
     try{

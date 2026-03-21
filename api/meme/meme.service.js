@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb"
 
 export const memeService = {
     getMemes,
+    getMeme,
     saveMeme,
     removeMeme
 }
@@ -14,6 +15,17 @@ async function getMemes(userId) {
     const user = await collection.findOne({ _id: new ObjectId(userId) })
     return user.savedMemes || []
 }
+async function getMeme(userId, memeId) {
+    const db = getDB()
+    const collection = db.collection("users")
+
+    const user = await collection.findOne({ _id: new ObjectId(userId) })
+    if (!user) return null
+
+    const meme = user.savedMemes.find(m => m.id === memeId)
+    return meme
+}
+
 
 async function saveMeme(userId, meme) {
     const db = getDB()
