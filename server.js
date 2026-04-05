@@ -9,6 +9,9 @@ import { memeRoutes } from "./api/meme/meme.routes.js"
 import { stockRoutes } from "./api/stock/stock.routes.js"
 import path from "path"
 import { fileURLToPath } from "url"
+import cookieParser from "cookie-parser"
+
+
 
 dotenv.config()
 
@@ -18,13 +21,10 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 app.use(express.json())
+app.use(cookieParser())
 
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-    'https://backend-stock-sv6k.onrender.com'
-  ],
+  origin: true,
   credentials: true
 }))
 
