@@ -1,5 +1,4 @@
 export function requireAuth(req, res, next) {
-    console.log(req)
     try {
         if (!req.session?.user) {
             return res.status(401).send('Not Authenticated')
