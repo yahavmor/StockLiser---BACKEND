@@ -23,10 +23,6 @@ const __dirname = path.dirname(__filename)
 app.use(express.json())
 app.use(cookieParser())
 
-app.use(cors({
-  origin: true,
-  credentials: true
-}))
 
 app.use(session({
   name: "connect.sid",
@@ -38,9 +34,9 @@ app.use(session({
     ttl: 60 * 60 * 24
   }),
   cookie: {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax"
   }
 }))
 
