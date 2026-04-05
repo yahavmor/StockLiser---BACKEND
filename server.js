@@ -41,7 +41,6 @@ app.use(session({
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  domain: "backend-stock-sv6k.onrender.com"
   }
 }))
 
