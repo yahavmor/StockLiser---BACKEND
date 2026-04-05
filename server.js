@@ -19,6 +19,7 @@ const __dirname = path.dirname(__filename)
 
 app.use(express.json())
 
+// CORS
 app.use(cors({
   origin: [
     'http://localhost:5173',
@@ -28,6 +29,7 @@ app.use(cors({
   credentials: true
 }))
 
+// SESSION
 app.use(session({
   name: "connect.sid",
   secret: process.env.SESSION_SECRET,
@@ -44,16 +46,18 @@ app.use(session({
   }
 }))
 
+// API ROUTES
 app.use('/api/auth', authRoutes)
 app.use('/api/meme', memeRoutes)
 app.use('/api/stock', stockRoutes)
 
+// STATIC FRONTEND
 app.use(express.static(path.join(__dirname, "dist")))
 
-app.get("/*", (req, res) => {
+// EXPRESS 5 — catch-all fix
+app.get("(.*)", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"))
 })
-
 
 await connectToDB()
 
