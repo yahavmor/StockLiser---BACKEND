@@ -38,9 +38,10 @@ app.use(session({
     ttl: 60 * 60 * 24
   }),
   cookie: {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  domain: "backend-stock-sv6k.onrender.com"
   }
 }))
 
